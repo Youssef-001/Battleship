@@ -2,6 +2,7 @@ class Ship {
   constructor(length, lives = length) {
     this.length = length;
     this.lives = lives;
+    this.coordinates = [];
   }
 
   hit() {

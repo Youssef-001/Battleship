@@ -6,11 +6,14 @@ div {
 }
 
 body {
-  display: flex;
-  gap: 2rem;
 }
 
-.board-1,
+.board-1 > div {
+  display: flex;
+  gap: 1px;
+  padding: 1px;
+}
+
 .board-2 > div {
   display: flex;
   gap: 1px;
@@ -43,4 +46,16 @@ body {
 .hit {
   border: 1px solid rgb(200, 200, 213);
   background-color: #f87171;
+}
+
+.game {
+  display: flex;
+  gap: 7rem;
+  margin-top: 6rem;
+  justify-content: center;
+}
+
+.empty:hover,
+.ship:hover {
+  background-color: #3b82f633;
 }

@@ -9,14 +9,17 @@ class Board {
     let ship3 = new ship(3);
     for (let i = 0; i < 5; i++) {
       this.board[1][i] = ship1;
+      ship1.coordinates.push([1, i]);
     }
 
     for (let i = 0; i < 4; i++) {
       this.board[2][i] = ship2;
+      ship2.coordinates.push([2, i]);
     }
 
     for (let i = 0; i < 3; i++) {
       this.board[3][i] = ship3;
+      ship3.coordinates.push([3, i]);
     }
     let shipArray = [ship1, ship2, ship3];
   }
