@@ -1,0 +1,46 @@
+*,
+div {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  gap: 2rem;
+}
+
+.board-1,
+.board-2 > div {
+  display: flex;
+  gap: 1px;
+  padding: 1px;
+}
+
+.board-1 > div > div {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+.board-2 > div > div {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.empty {
+  border: 1px solid rgb(200, 200, 213);
+}
+
+.ship {
+  border: 2px solid blue;
+  background-color: #3b82f633;
+}
+
+.miss {
+  border: 1px solid rgb(200, 200, 213);
+  background-color: #fef08a;
+}
+
+.hit {
+  border: 1px solid rgb(200, 200, 213);
+  background-color: #f87171;
+}
