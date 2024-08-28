@@ -28,9 +28,15 @@ function Game(player1, computer) {
       let elem = board_div1.querySelector(`[id='${cord}']`);
       let elem2 = board_div2.querySelector(`[id='${cord}']`);
 
-      if (elem.className == "empty" || elem.className == "ship")
+      if (
+        computer.board.board[i][j] == 0 ||
+        !computer.board.isAttacked(computer, i, j)
+      )
         cells1.push(elem);
-      if (elem2.className == "empty" || elem2.className == "ship")
+      if (
+        player1.board.board[i][j] == 0 ||
+        !player1.board.isAttacked(computer, i, j)
+      )
         cells2.push(elem2);
     }
   }
@@ -46,8 +52,8 @@ function Game(player1, computer) {
     }
 
     console.log(e.target.className);
-    if (e.target.className === "empty") {
-      let cord = e.target.id.split(" ");
+    let cord = e.target.id.split(" ");
+    if (currentPlayer.board.board[cord[0]][cord[1]] == 0) {
       currentPlayer.board.board[cord[0]][cord[1]] = -1;
       updateCell(id, e.target, currentPlayer, cord[0], cord[1]);
       turn = !turn;

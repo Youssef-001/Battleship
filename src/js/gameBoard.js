@@ -48,6 +48,16 @@ class Board {
 
     return true;
   }
+
+  isAttacked(player, r, c) {
+    let attackedCells = player.board.attacked_ship_cells;
+    for (let i = 0; i < attackedCells.length; i++) {
+      if (attackedCells[i][0] == r && attackedCells[i][1] == c) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 export default Board;
