@@ -3,11 +3,11 @@ import Player from "./Player";
 
 function changeCellClass(cell, player, r, c) {
   let board = player.board.board;
-  if (board[r][c] == 0) cell.classList.add("empty");
-  else if (board[r][c] == -1) cell.classList.add("miss");
+  if (board[r][c] == 0) cell.className = "empty";
+  else if (board[r][c] == -1) cell.className = "miss";
   else {
     if (board[r][c].isSunk() == true) {
-      cell.classList.add("destroy");
+      cell.className = "destroy";
       return cell;
     }
 
@@ -22,8 +22,8 @@ function changeCellClass(cell, player, r, c) {
     }
 
     if (flag) {
-      cell.classList.add("hit");
-    } else cell.classList.add("ship");
+      cell.className = "hit";
+    } else cell.className = "ship";
   }
   console.log("new cell", board[r][c]);
   return cell;
@@ -70,14 +70,12 @@ function shipSink(id, player, coordinates) {
   let board_div;
   if (id == 1) board_div = document.querySelector(".board-1");
   else board_div = document.querySelector(".board-1");
-  // console.log(board_div);
 
   for (let i = 0; i < coordinates.length; i++) {
     console.log(coordinates[i]);
     let cord = coordinates[i].toString();
     cord = cord.replace(",", " ");
     let elem = board_div.querySelector(`[id='${cord}']`);
-    // console.log("this", elem);
     updateCell(id, elem, player, coordinates[i][0], coordinates[i][1]);
   }
 }

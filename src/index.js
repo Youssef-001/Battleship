@@ -8,12 +8,75 @@ let computer = new Player();
 console.log(player1.board.board);
 renderBoard(computer);
 
-// player1.board.attacked_ship_cells.push([3, 0]);
-// player1.board.attacked_ship_cells.push([3, 1]);
-// player1.board.attacked_ship_cells.push([3, 2]);
+// TODO: only empty and ship will have eventlistener with click.
+let turn = true;
 
-// shipSink(1, player1, [
-//   [3, 0],
-//   [3, 1],
-//   [3, 2],
-// ]);
+function Game(player1, computer) {
+  let board_div1;
+  let board_div2;
+
+  board_div1 = document.querySelector(".board-2");
+  board_div2 = document.querySelector(".board-1");
+
+  let cells1 = [];
+  let cells2 = [];
+
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      let cord = `${i} ${j}`;
+      console.log("cord: ", cord);
+      let elem = board_div1.querySelector(`[id='${cord}']`);
+      let elem2 = board_div2.querySelector(`[id='${cord}']`);
+
+      if (elem.className == "empty" || elem.className == "ship")
+        cells1.push(elem);
+      if (elem2.className == "empty" || elem2.className == "ship")
+        cells2.push(elem2);
+    }
+  }
+  function handleCellClick(e) {
+    let currentPlayer;
+    let id;
+    if (turn == true) {
+      currentPlayer = player1;
+      id = 1;
+    } else {
+      currentPlayer = computer;
+      id = 2;
+    }
+
+    console.log(e.target.className);
+    if (e.target.className === "empty") {
+      let cord = e.target.id.split(" ");
+      currentPlayer.board.board[cord[0]][cord[1]] = -1;
+      updateCell(id, e.target, currentPlayer, cord[0], cord[1]);
+      turn = !turn;
+      console.log(e.target);
+      updateListeners();
+    }
+  }
+
+  function updateListeners() {
+    if (turn) {
+      cells2.forEach((cell) => {
+        cell.removeEventListener("click", handleCellClick);
+      });
+
+      cells1.forEach((cell) => {
+        cell.addEventListener("click", handleCellClick);
+      });
+    } else {
+      cells1.forEach((cell) => {
+        cell.removeEventListener("click", handleCellClick);
+      });
+
+      cells2.forEach((cell) => {
+        cell.addEventListener("click", handleCellClick);
+      });
+    }
+  }
+
+  updateListeners();
+}
+
+Game(player1, computer);
