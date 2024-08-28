@@ -5,7 +5,7 @@ import computerMove from "./js/utility";
 let player1 = new Player();
 
 renderBoard(player1);
-let computer = new Player();
+let computer = new Player(true);
 console.log(player1.board.board);
 renderBoard(computer);
 
@@ -44,7 +44,7 @@ function Game(player1, computer) {
   function handleCellClick(e) {
     let target;
 
-    if (e.target == null) target = e;
+    if (e.target == undefined) target = e;
     else target = e.target;
 
     let currentPlayer;
@@ -65,11 +65,14 @@ function Game(player1, computer) {
       cord[1]
     );
 
+    cord[0] = parseInt(cord[0]);
+    cord[1] = parseInt(cord[1]);
+
     if (currentPlayer.board.board[cord[0]][cord[1]] == 0) {
       currentPlayer.board.board[cord[0]][cord[1]] = -1;
-      updateCell(id, target, currentPlayer, cord[0], cord[1]);
       turn = !turn;
-      if (currentPlayer.isBot != true) updateListeners2();
+      updateCell(id, target, currentPlayer, cord[0], cord[1]);
+      if (player1.isBot == true || computer.isBot == true) updateListeners2();
       else updateListeners();
     } else if (!attackedCell) {
       currentPlayer.board.attacked_ship_cells.push([cord[0], cord[1]]);
@@ -150,7 +153,7 @@ function Game(player1, computer) {
       });
     }
 
-    if (computer.isBot === true) {
+    if (computer.isBot === true && !turn) {
       setTimeout(() => {
         let ind = computerMove();
         console.log(ind);
@@ -163,21 +166,8 @@ function Game(player1, computer) {
         if (!turn) {
           updateListeners2();
         }
-      }, 1000); // Add a 1-second delay for realism
+      }, 600); // Add a 1-second delay for realism
     }
-
-    //TODO get bot choice and target handelCellClick.
-    // let currentPlayer;
-    // if (bot == true) currentPlayer = computer;
-    // else currentPlayer = player1;
-    // if (currentPlayer.isBot === true) {
-    //   let ind = computerMove();
-    //   let coord = ind.toString().replace(",", " ");
-    //   let div1 = document.querySelector(".board-1");
-    //   let element = div1.querySelector(`[id='${coord}']`);
-
-    //   handleCellClick(element);
-    // }
   }
 
   updateListeners();
