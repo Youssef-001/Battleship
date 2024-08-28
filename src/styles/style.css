@@ -59,3 +59,7 @@ body {
 .ship:hover {
   background-color: #3b82f633;
 }
+
+.destroy {
+  background-color: rebeccapurple;
+}

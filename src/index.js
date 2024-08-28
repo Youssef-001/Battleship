@@ -53,12 +53,35 @@ function Game(player1, computer) {
 
     console.log(e.target.className);
     let cord = e.target.id.split(" ");
+    let attackedCell = currentPlayer.board.isAttacked(
+      currentPlayer,
+      cord[0],
+      cord[1]
+    );
+
     if (currentPlayer.board.board[cord[0]][cord[1]] == 0) {
       currentPlayer.board.board[cord[0]][cord[1]] = -1;
       updateCell(id, e.target, currentPlayer, cord[0], cord[1]);
       turn = !turn;
       console.log(e.target);
       updateListeners();
+    } else if (!attackedCell) {
+      currentPlayer.board.attacked_ship_cells.push([cord[0], cord[1]]);
+      let currentShip = currentPlayer.board.board[cord[0]][cord[1]];
+      currentShip.hit();
+      console.log(currentShip);
+      updateCell(id, e.target, currentPlayer, cord[0], cord[1]);
+
+      if (currentShip.isSunk()) {
+        console.log("A ship has been destroyed");
+        currentShip.coordinates.forEach((c) => {
+          if (turn) id = 1;
+          else id = 2;
+          //TODO get the cecll with coordinate c
+          let cell = currentPlayer.board.getCell(id, c[0], c[1]);
+          updateCell(id, cell, currentPlayer, c[0], c[1]);
+        });
+      }
     }
   }
 

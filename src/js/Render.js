@@ -60,9 +60,9 @@ function renderBoard(player) {
 }
 
 function updateCell(id, cell, player, r, c) {
-  let board_div;
-  if (id == 1) board_div = document.querySelector(".board-1");
-  else board_div = document.querySelector(".board-1");
+  // let board_div;
+  // if (id == 1) board_div = document.querySelector(".board-1");
+  // else board_div = document.querySelector(".board-1");
 
   cell = changeCellClass(cell, player, r, c);
 }

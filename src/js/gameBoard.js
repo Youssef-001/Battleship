@@ -58,6 +58,18 @@ class Board {
     }
     return false;
   }
+
+  getCell(id, r, c) {
+    let div;
+    if (id == 1) {
+      div = document.querySelector(".board-2");
+    } else div = document.querySelector(".board-1");
+
+    let cord = `${r} ${c}`;
+    let element = div.querySelector(`[id='${cord}']`);
+    console.log(element);
+    return element;
+  }
 }
 
 export default Board;
