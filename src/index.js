@@ -1,5 +1,5 @@
 import Player from "./js/Player";
-import { renderBoard, updateCell, shipSink } from "./js/Render";
+import { renderBoard, updateCell, shipSink, renderWinner } from "./js/Render";
 import style from "./styles/style.css";
 let player1 = new Player();
 
@@ -71,21 +71,37 @@ function Game(player1, computer) {
       currentShip.hit();
       console.log(currentShip);
       updateCell(id, e.target, currentPlayer, cord[0], cord[1]);
+      if (turn) id = 1;
+      else id = 2;
 
       if (currentShip.isSunk()) {
         console.log("A ship has been destroyed");
         currentShip.coordinates.forEach((c) => {
-          if (turn) id = 1;
-          else id = 2;
-          //TODO get the cecll with coordinate c
           let cell = currentPlayer.board.getCell(id, c[0], c[1]);
           updateCell(id, cell, currentPlayer, c[0], c[1]);
         });
+
+        // TODO: check if all ships has sank
+        if (currentPlayer.board.allSunk()) {
+          console.log(`player ${currentPlayer.id} won!!`);
+          renderWinner(id);
+          updateListeners(true);
+        }
       }
     }
   }
 
-  function updateListeners() {
+  function updateListeners(flag = null) {
+    if (flag) {
+      cells2.forEach((cell) => {
+        cell.removeEventListener("click", handleCellClick);
+      });
+
+      cells1.forEach((cell) => {
+        cell.removeEventListener("click", handleCellClick);
+      });
+      return;
+    }
     if (turn) {
       cells2.forEach((cell) => {
         cell.removeEventListener("click", handleCellClick);

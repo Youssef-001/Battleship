@@ -81,4 +81,13 @@ function shipSink(id, player, coordinates) {
   }
 }
 
-export { renderBoard, updateCell, shipSink };
+function renderWinner(id) {
+  let elem = document.querySelector(".winner");
+  if (id == 1) {
+    elem.innerText = "Player 1 won!!!";
+  } else if (id == 2) {
+    elem.innerText = "Computer won (:";
+  }
+}
+
+export { renderBoard, updateCell, shipSink, renderWinner };

@@ -21,7 +21,7 @@ class Board {
       this.board[3][i] = ship3;
       ship3.coordinates.push([3, i]);
     }
-    let shipArray = [ship1, ship2, ship3];
+    this.shipArray = [ship1, ship2, ship3];
   }
 
   receiveAttack(r, c) {
