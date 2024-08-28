@@ -23,7 +23,8 @@ function changeCellClass(cell, player, r, c) {
 
     if (flag) {
       cell.className = "hit";
-    } else cell.className = "ship";
+    } else if (player.id != 2) cell.className = "ship";
+    else cell.className = "empty";
   }
   console.log("new cell", board[r][c]);
   return cell;
