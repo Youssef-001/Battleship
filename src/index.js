@@ -1,6 +1,7 @@
 import Player from "./js/Player";
 import { renderBoard, updateCell, shipSink, renderWinner } from "./js/Render";
 import style from "./styles/style.css";
+import computerMove from "./js/utility";
 let player1 = new Player();
 
 renderBoard(player1);
@@ -41,6 +42,11 @@ function Game(player1, computer) {
     }
   }
   function handleCellClick(e) {
+    let target;
+
+    if (e.target == null) target = e;
+    else target = e.target;
+
     let currentPlayer;
     let id;
     if (turn == true) {
@@ -51,8 +57,8 @@ function Game(player1, computer) {
       id = 2;
     }
 
-    console.log(e.target.className);
-    let cord = e.target.id.split(" ");
+    console.log(target.className);
+    let cord = target.id.split(" ");
     let attackedCell = currentPlayer.board.isAttacked(
       currentPlayer,
       cord[0],
@@ -61,16 +67,16 @@ function Game(player1, computer) {
 
     if (currentPlayer.board.board[cord[0]][cord[1]] == 0) {
       currentPlayer.board.board[cord[0]][cord[1]] = -1;
-      updateCell(id, e.target, currentPlayer, cord[0], cord[1]);
+      updateCell(id, target, currentPlayer, cord[0], cord[1]);
       turn = !turn;
-      console.log(e.target);
-      updateListeners();
+      if (currentPlayer.isBot != true) updateListeners2();
+      else updateListeners();
     } else if (!attackedCell) {
       currentPlayer.board.attacked_ship_cells.push([cord[0], cord[1]]);
       let currentShip = currentPlayer.board.board[cord[0]][cord[1]];
       currentShip.hit();
       console.log(currentShip);
-      updateCell(id, e.target, currentPlayer, cord[0], cord[1]);
+      updateCell(id, target, currentPlayer, cord[0], cord[1]);
       if (turn) id = 1;
       else id = 2;
 
@@ -85,13 +91,15 @@ function Game(player1, computer) {
         if (currentPlayer.board.allSunk()) {
           console.log(`player ${currentPlayer.id} won!!`);
           renderWinner(id);
-          updateListeners(true);
+          if (currentPlayer.isBot == true) {
+            updateListeners2(true);
+          } else updateListeners(true, null);
         }
       }
     }
   }
 
-  function updateListeners(flag = null) {
+  function updateListeners(flag = null, bot = null) {
     if (flag) {
       cells2.forEach((cell) => {
         cell.removeEventListener("click", handleCellClick);
@@ -119,6 +127,57 @@ function Game(player1, computer) {
         cell.addEventListener("click", handleCellClick);
       });
     }
+  }
+
+  function updateListeners2(end = null) {
+    if (end == true) {
+      cells1.forEach((cell) => {
+        cell.removeEventListener("click", handleCellClick);
+      });
+
+      cells2.forEach((cell) => {
+        cell.removeEventListener("click", handleCellClick);
+      });
+      return;
+    }
+    if (turn) {
+      cells1.forEach((cell) => {
+        cell.addEventListener("click", handleCellClick);
+      });
+    } else {
+      cells1.forEach((cell) => {
+        cell.removeEventListener("click", handleCellClick);
+      });
+    }
+
+    if (computer.isBot === true) {
+      setTimeout(() => {
+        let ind = computerMove();
+        console.log(ind);
+        let coord = ind.toString().replace(",", " ");
+        let div1 = document.querySelector(".board-1");
+        let element = div1.querySelector(`[id='${coord}']`);
+
+        handleCellClick(element);
+
+        if (!turn) {
+          updateListeners2();
+        }
+      }, 1000); // Add a 1-second delay for realism
+    }
+
+    //TODO get bot choice and target handelCellClick.
+    // let currentPlayer;
+    // if (bot == true) currentPlayer = computer;
+    // else currentPlayer = player1;
+    // if (currentPlayer.isBot === true) {
+    //   let ind = computerMove();
+    //   let coord = ind.toString().replace(",", " ");
+    //   let div1 = document.querySelector(".board-1");
+    //   let element = div1.querySelector(`[id='${coord}']`);
+
+    //   handleCellClick(element);
+    // }
   }
 
   updateListeners();
