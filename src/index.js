@@ -9,7 +9,6 @@ let computer = new Player(true);
 console.log(player1.board.board);
 renderBoard(computer);
 
-// TODO: only empty and ship will have eventlistener with click.
 let turn = true;
 
 function Game(player1, computer) {
