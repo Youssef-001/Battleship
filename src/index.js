@@ -94,7 +94,7 @@ function Game(player1, computer) {
         if (currentPlayer.board.allSunk()) {
           console.log(`player ${currentPlayer.id} won!!`);
           renderWinner(id);
-          if (currentPlayer.isBot == true) {
+          if (computer.isBot == true || player1.isBot == true) {
             updateListeners2(true);
           } else updateListeners(true, null);
         }
@@ -164,9 +164,11 @@ function Game(player1, computer) {
         handleCellClick(element);
 
         if (!turn) {
-          updateListeners2();
+          if (computer.board.allSunk()) {
+            updateListeners2(true);
+          } else updateListeners2();
         }
-      }, 600); // Add a 1-second delay for realism
+      }, 600);
     }
   }
 
