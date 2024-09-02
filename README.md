@@ -4,7 +4,7 @@ Battleship is a classic strategy game where two players take turns trying to sin
 
 ![image](https://github.com/user-attachments/assets/245d83b2-7c6c-4240-ac04-d59a11d63a78)
 
-<<<<<<< HEAD
+
 # Features
 
 - Classic Battleship Rules: Implemented core game mechanics for ship placement, attacks, and win conditions.
@@ -23,25 +23,3 @@ Battleship is a classic strategy game where two players take turns trying to sin
 - Jest (for testing)
 
 ### To try the game, run `npm start` and open `index.html` in the `dist` folder (:
-=======
-
-# Features
-
-- Classic Battleship Rules: Implemented core game mechanics for ship placement, attacks, and win conditions.
-- Dynamic Ship Placement: Ships are placed using utility functions to avoid hard-coding positions.
-- Player Boards: Separate boards for each player with distinct visual indicators for hits, misses, and ship placements.
-- Game Logic: Comprehensive logic for validating ship placements, processing attacks, and determining game outcomes.
-- Responsive UI: Designed to be functional across different screen sizes.
-- Testing: The project uses Jest for unit testing, ensuring that core functionalities for the board,ship modules
-
-## Stack
-- JavaScript (for game logic and interactivity)
-- HTML/CSS (for structure and styling)
-- Webpack (for module bundling)
-- Babel (for JavaScript transpiling)
-- Jest (for testing)
-
-### To try the game, run npm start and open index.html in dist file (:
-
-
->>>>>>> 01f69ec (Update README.md)
