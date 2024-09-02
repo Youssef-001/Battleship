@@ -13,6 +13,7 @@ Battleship is a classic strategy game where two players take turns trying to sin
 - Game Logic: Comprehensive logic for validating ship placements, processing attacks, and determining game outcomes.
 - Responsive UI: Designed to be functional across different screen sizes.
 - Testing: The project uses Jest for unit testing, ensuring that core functionalities for the board and ship modules are covered.
+- The game contains two modes, two player mode, and computer mode where you play vs a bot
 
 ## Stack
 
