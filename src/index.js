@@ -1,10 +1,11 @@
 import Player from "./js/Player";
 import { renderBoard, updateCell, shipSink, renderWinner } from "./js/Render";
 import style from "./styles/style.css";
-import computerMove from "./js/utility";
+import { computerMove, randomizeShip } from "./js/utility";
 function playGame(bot) {
   document.querySelector(".page").remove();
   let player1 = new Player();
+
   renderBoard(player1);
   let computer;
   if (bot) computer = new Player(true);
@@ -26,7 +27,6 @@ function playGame(bot) {
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
         let cord = `${i} ${j}`;
-        console.log("cord: ", cord);
         let elem = board_div1.querySelector(`[id='${cord}']`);
         let elem2 = board_div2.querySelector(`[id='${cord}']`);
 
@@ -58,10 +58,14 @@ function playGame(bot) {
         id = 2;
       }
 
-      console.log(target.className);
+      let otherPlayer;
+
+      if (currentPlayer == player1) otherPlayer = computer;
+      else otherPlayer = player1;
+
       let cord = target.id.split(" ");
-      let attackedCell = currentPlayer.board.isAttacked(
-        currentPlayer,
+      let attackedCell = otherPlayer.board.isAttacked(
+        otherPlayer,
         cord[0],
         cord[1]
       );
@@ -69,31 +73,29 @@ function playGame(bot) {
       cord[0] = parseInt(cord[0]);
       cord[1] = parseInt(cord[1]);
 
-      if (currentPlayer.board.board[cord[0]][cord[1]] == 0) {
-        currentPlayer.board.board[cord[0]][cord[1]] = -1;
+      if (otherPlayer.board.board[cord[0]][cord[1]] == 0) {
+        otherPlayer.board.board[cord[0]][cord[1]] = -1;
         turn = !turn;
-        updateCell(id, target, currentPlayer, cord[0], cord[1]);
+        updateCell(id, target, otherPlayer, cord[0], cord[1]);
         if (player1.isBot == true || computer.isBot == true) updateListeners2();
         else updateListeners();
       } else if (!attackedCell) {
-        currentPlayer.board.attacked_ship_cells.push([cord[0], cord[1]]);
-        let currentShip = currentPlayer.board.board[cord[0]][cord[1]];
+        otherPlayer.board.attacked_ship_cells.push([cord[0], cord[1]]);
+        let currentShip = otherPlayer.board.board[cord[0]][cord[1]];
         currentShip.hit();
-        console.log(currentShip);
-        updateCell(id, target, currentPlayer, cord[0], cord[1]);
+        updateCell(id, target, otherPlayer, cord[0], cord[1]);
         if (turn) id = 1;
         else id = 2;
 
         if (currentShip.isSunk()) {
           console.log("A ship has been destroyed");
           currentShip.coordinates.forEach((c) => {
-            let cell = currentPlayer.board.getCell(id, c[0], c[1]);
-            updateCell(id, cell, currentPlayer, c[0], c[1]);
+            let cell = otherPlayer.board.getCell(id, c[0], c[1]);
+            updateCell(id, cell, otherPlayer, c[0], c[1]);
           });
 
-          // TODO: check if all ships has sank
-          if (currentPlayer.board.allSunk()) {
-            console.log(`player ${currentPlayer.id} won!!`);
+          if (otherPlayer.board.allSunk()) {
+            console.log(`player ${otherPlayer.id} won!!`);
             renderWinner(id);
             if (computer.isBot == true || player1.isBot == true) {
               updateListeners2(true);
@@ -157,7 +159,6 @@ function playGame(bot) {
       if (computer.isBot === true && !turn) {
         setTimeout(() => {
           let ind = computerMove();
-          console.log(ind);
           let coord = ind.toString().replace(",", " ");
           let div1 = document.querySelector(".board-1");
           let element = div1.querySelector(`[id='${coord}']`);
